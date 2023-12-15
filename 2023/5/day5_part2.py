@@ -49,12 +49,25 @@ almanac = {
 }
 
 map_type = ""
+
+seeds_range = [int(x) for x in data.split("\n")[0].split(":")[1].split(" ")]
+seed_list = []
+range_list = []
+
+for k, each in enumerate(seeds_range):
+    if k % 2 == 0:
+        range_list.append(each)
+    else:
+        seed_list.append(each)
+
+
 for k, each in enumerate(data.split("\n")):
     if each.find("seeds") != -1:
-        seeds = [int(x) for x in each.split(":")[1].split(" ") if x.isdigit()]  # seeds are now range not individual seed
-        almanac["seeds"].extend(seeds)
-        important_numbers = set(seeds)
-        print(f"seeds are {almanac.get('seeds')}")
+        # seeds = [int(x) for x in each.split(":")[1].split(" ") if x.isdigit()]  # seeds are now range not individual seed
+        # almanac["seeds"].extend(seeds)
+        # important_numbers = set(seeds)
+        # print(f"seeds are {almanac.get('seeds')}")
+        pass
     elif each.find("map") != -1:
         temp = set()
         map_type = each.split(" ")[0]
