@@ -50,7 +50,7 @@ almanac = {
 
 map_type = ""
 
-seeds_range = [int(x) for x in data.split("\n")[0].split(":")[1].split(" ")]
+seeds_range = [int(x) for x in data.split("\n")[0].split(":")[1].split(" ") if x.isdigit()]
 seed_list = []
 range_list = []
 
@@ -60,13 +60,21 @@ for k, each in enumerate(seeds_range):
     else:
         seed_list.append(each)
 
+all_seeds = set()
+for seed_start, seed_range in zip(seed_list, range_list):
+    all_seeds.add(range(seed_start, seed_start+seed_range))
+
+
+print(f"(seed, range) are {zip(seed_list, range_list)}")
+print(f"all seeds are {all_seeds}")
+
 
 for k, each in enumerate(data.split("\n")):
     if each.find("seeds") != -1:
         # seeds = [int(x) for x in each.split(":")[1].split(" ") if x.isdigit()]  # seeds are now range not individual seed
-        # almanac["seeds"].extend(seeds)
-        # important_numbers = set(seeds)
-        # print(f"seeds are {almanac.get('seeds')}")
+        almanac["seeds"].extend(seed_list)
+        important_numbers = all_seeds  # using list of range, not list of seeds
+        print(f"seeds are {almanac.get('seeds')}")
         pass
     elif each.find("map") != -1:
         temp = set()
@@ -86,7 +94,8 @@ for k, each in enumerate(data.split("\n")):
         source = numbers[1]
         num_range = numbers[2]
         for important in important_numbers:
-            if important >= source and important <= source + num_range: # number is in range
+            if important[0] >= source and important[-1] <= source + num_range: # number is in range
+                # don't have number for important, just a range of numbers 
                 difference = important - source
                 keep_destination = destination + difference
                 print(f"source {important} and destination {keep_destination} for {map_type}")
@@ -97,26 +106,26 @@ for k, each in enumerate(data.split("\n")):
 
 pprint(almanac, expand_all=True)
 
-locations = {}
-# find location
-for each in seeds:
-    soil = almanac.get("seed-to-soil").get(each, each)
-    fertilizer = almanac.get("soil-to-fertilizer").get(soil, soil)
-    water = almanac.get("fertilizer-to-water").get(fertilizer, fertilizer)
-    light = almanac.get("water-to-light").get(water, water)
-    temperature = almanac.get("light-to-temperature").get(light, light)
-    humidity = almanac.get("temperature-to-humidity").get(temperature, temperature)
-    location = almanac.get("humidity-to-location").get(humidity, humidity)
-    locations[each] = location
+# locations = {}
+# # find location
+# for each in seeds:
+#     soil = almanac.get("seed-to-soil").get(each, each)
+#     fertilizer = almanac.get("soil-to-fertilizer").get(soil, soil)
+#     water = almanac.get("fertilizer-to-water").get(fertilizer, fertilizer)
+#     light = almanac.get("water-to-light").get(water, water)
+#     temperature = almanac.get("light-to-temperature").get(light, light)
+#     humidity = almanac.get("temperature-to-humidity").get(temperature, temperature)
+#     location = almanac.get("humidity-to-location").get(humidity, humidity)
+#     locations[each] = location
 
-print(locations)
+# print(locations)
 
-for k, v in enumerate(locations.values()):
-    if k == 0:
-        lowest = v
-    elif v < lowest:
-        lowest = v
+# for k, v in enumerate(locations.values()):
+#     if k == 0:
+#         lowest = v
+#     elif v < lowest:
+#         lowest = v
 
-print(f"the lowest location is {lowest}")
+# print(f"the lowest location is {lowest}")
 
 
