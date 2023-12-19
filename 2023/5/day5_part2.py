@@ -56,9 +56,9 @@ range_list = []
 
 for k, each in enumerate(seeds_range):
     if k % 2 == 0:
-        range_list.append(each)
-    else:
         seed_list.append(each)
+    else:
+        range_list.append(each)
 
 all_seeds = set()
 for seed_start, seed_range in zip(seed_list, range_list):
@@ -96,7 +96,7 @@ for k, each in enumerate(data.split("\n")):
             if len(overlap) != 0:
                 print(f"overlapping range {overlap} found")
                 start_cutoff = overlap.start - source_range.start
-                end_cutoff = source_range.stop - overlap.stop - 2 # minus 2 because stop is exclusive
+                end_cutoff = source_range.stop - overlap.stop # minus 2 because stop is exclusive
                 destination_keep = range(destination+start_cutoff, destination+num_range-end_cutoff)
                 almanac[map_type].update({overlap: destination_keep})
             else:
@@ -115,7 +115,7 @@ for each in all_seeds:
         overlap = range(max(temp_key.start, each.start), min(temp_key.stop, each.stop))
         if len(overlap) != 0:
             start_cutoff = overlap.start - temp_key.start
-            end_cutoff = temp_key.stop - overlap.stop - 2
+            end_cutoff = temp_key.stop - overlap.stop
             soil.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
         else:
             soil.add(each)
@@ -128,7 +128,7 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 fertilizer.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 fertilizer.add(source)
@@ -141,7 +141,7 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 water.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 water.add(source)
@@ -154,7 +154,7 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 light.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 light.add(source)
@@ -167,7 +167,7 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 temperature.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 temperature.add(source)
@@ -180,7 +180,7 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 humidity.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 humidity.add(source)
@@ -193,21 +193,13 @@ for each in all_seeds:
             overlap = range(max(temp_key.start, source.start), min(temp_key.stop, source.stop))
             if len(overlap) != 0:
                 start_cutoff = overlap.start - temp_key.start
-                end_cutoff = temp_key.stop - overlap.stop - 2
+                end_cutoff = temp_key.stop - overlap.stop
                 location.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
             else:
                 location.add(source)
-    # soil = almanac.get("seed-to-soil").get(each, each)
-    # fertilizer = almanac.get("soil-to-fertilizer").get(soil, soil)
-    # water = almanac.get("fertilizer-to-water").get(fertilizer, fertilizer)
-    # light = almanac.get("water-to-light").get(water, water)
-    # temperature = almanac.get("light-to-temperature").get(light, light)
-    # humidity = almanac.get("temperature-to-humidity").get(temperature, temperature)
-    # location = almanac.get("humidity-to-location").get(humidity, humidity)
     locations[each] = location
 
-print(locations)
-
+pprint(locations, expand_all=True)
 # for k, v in enumerate(locations.values()):
 #     if k == 0:
 #         lowest = v
