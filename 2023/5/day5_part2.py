@@ -99,6 +99,7 @@ for k, each in enumerate(data.split("\n")):
                 end_cutoff = source_range.stop - overlap.stop # minus 2 because stop is exclusive
                 destination_keep = range(destination+start_cutoff, destination+num_range-end_cutoff)
                 almanac[map_type].update({overlap: destination_keep})
+                temp.add(destination_keep)
             else:
                 temp.add(important) # must be same number   
 
@@ -130,6 +131,7 @@ for each in all_seeds:
                 start_cutoff = overlap.start - temp_key.start
                 end_cutoff = temp_key.stop - overlap.stop
                 fertilizer.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
+                # may need to add part that is not overlapping??
             else:
                 fertilizer.add(source)
     temp_map = almanac.get("fertilizer-to-water")
