@@ -137,6 +137,7 @@ for each in all_seeds:
                 fertilizer.add(range(temp_map[temp_key].start+start_cutoff, temp_map[temp_key].stop-end_cutoff))
                 fertilizer.add(range(source.start, source.start+start_cutoff)) # start part not in overlap
                 fertilizer.add(range(source.stop - end_cutoff - 1, source.stop)) # end part not in overlap
+                # may need to add part that is not overlapping??
             else:
                 fertilizer.add(source)
     temp_map = almanac.get("fertilizer-to-water")
